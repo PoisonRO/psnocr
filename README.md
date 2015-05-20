@@ -1,2 +1,3 @@
-# shiny-avenger
-Web OCR
+=======
+# psnocr
+Local OCR
