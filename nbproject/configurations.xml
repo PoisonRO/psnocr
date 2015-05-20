@@ -31,6 +31,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>README.md</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -49,6 +50,8 @@
           <commandLine>`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6`</commandLine>
         </ccTool>
       </compileType>
+      <item path="README.md" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ocr_parser.cpp" ex="false" tool="1" flavor2="0">
@@ -84,6 +87,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="README.md" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ocr_parser.cpp" ex="false" tool="1" flavor2="0">
