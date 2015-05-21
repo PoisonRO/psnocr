@@ -24,6 +24,8 @@ public:
     
     bool checkRegion();
     
+    std::string getOCRText();
+    
 protected:
     
     int x1;
@@ -32,6 +34,7 @@ protected:
     int y2;
     
     std::string name;
+    std::string szOCRText;
     
 };
 

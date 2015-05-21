@@ -26,6 +26,8 @@ public:
     
 private:
     
+    void processImageOCR();
+    
     Magick::Image           pBaseImage;
 
     std::string             szTempFileName;

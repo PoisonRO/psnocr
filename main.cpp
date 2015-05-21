@@ -23,6 +23,7 @@ using namespace Magick;
 int main(int argc, char** argv) 
 {
     
+    
     Magick::InitializeMagick(*argv);
     
     /*Magick::Image main_img("/home/dan/Desktop/magick_images/Untitled.png");
@@ -36,7 +37,7 @@ int main(int argc, char** argv)
     
     settings = new OCR_Parser();
     
-    settings->load_config("/home/dan/Desktop/magick_images/template.xml");
+    settings->load_config("/home/dan/Desktop/magick_images/f.xml");
     settings->loadImage("/home/dan/Desktop/magick_images/Untitled.png");
     settings->process_ocr();
     

@@ -6,6 +6,13 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/dan/NetBeansProjects/psnocr/ocr_regionoperation.cpp</file>
+            <file>file:/home/dan/NetBeansProjects/psnocr/ocr_regionoperation.h</file>
+            <file>file:/home/dan/NetBeansProjects/psnocr/ocr_parser.cpp</file>
+            <file>file:/home/dan/NetBeansProjects/psnocr/main.cpp</file>
+            <file>file:/home/dan/NetBeansProjects/psnocr/ocr_region.cpp</file>
+            <file>file:/home/dan/NetBeansProjects/psnocr/ocr_region.h</file>
+        </group>
     </open-files>
 </project-private>

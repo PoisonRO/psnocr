@@ -14,6 +14,7 @@
 using namespace Magick;
 
 OCR_Parser::OCR_Parser() {
+
 }
 
 OCR_Parser::~OCR_Parser() {
@@ -134,6 +135,8 @@ void OCR_Parser::process_ocr()
     for (int i = 0;i<regions.size();i++) {
         regions[i]->setBaseImage(pImage);
         regions[i]->processImage();
+        
+        std::cout << regions[i]->getOCRText() << "\n";
     }
 }
 

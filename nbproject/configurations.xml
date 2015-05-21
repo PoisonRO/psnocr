@@ -49,6 +49,12 @@
           </incDir>
           <commandLine>`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6`</commandLine>
         </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>tesseract</linkerLibLibItem>
+            <linkerLibLibItem>lept</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>
