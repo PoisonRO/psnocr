@@ -10,6 +10,8 @@
 
 #include <string>
 
+#include "ocr_regionvalidator.h"
+
 class OCR_Region {
     
 public:
@@ -26,6 +28,9 @@ public:
     
     std::string getOCRText();
     
+    void addPostProcess(OCR_RegionPostProcess* pp);
+    void addValidator(OCR_RegionValidator* validator);
+    
 protected:
     
     int x1;
@@ -36,6 +41,10 @@ protected:
     std::string name;
     std::string szOCRText;
     
+    std::vector<OCR_RegionPostProcess*> pPostProcess;
+    std::vector<OCR_RegionValidator*>   pValidators;
+    
+    void setOCRText(std::string newOCRText);
 };
 
 #endif	/* OCR_REGION_H */

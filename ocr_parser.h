@@ -10,7 +10,6 @@
 
 #include <string>
 #include <vector>
-#include <libxml++/libxml++.h>
 #include "ocr_regionoperation.h"
 #include <Magick++.h>
 

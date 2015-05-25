@@ -6,9 +6,11 @@
  */
 
 #include "ocr_parser.h"
+#include "ocr_region_process.h"
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
+#include <libxml++/attribute.h>
 //https://developer.gnome.org/libxml++-tutorial/stable/chapter-parsers.html
 
 using namespace Magick;
@@ -59,7 +61,9 @@ void OCR_Parser::load_config(std::string config_file)
     xmlpp::Element *pCurrentRegionPropElement = NULL;
     xmlpp::Attribute *pCurrentRegionPropAttribute = NULL;
             
-    OCR_RegionOperation* pOCR_Region = NULL;
+    OCR_RegionOperation* pOCR_Region        = NULL;
+    OCR_RegionPostProcess* pOCR_PP          = NULL;
+    OCR_RegionValidator*   pValidator       = NULL;
     
     int iTempFileNo=1;
     
@@ -106,6 +110,41 @@ void OCR_Parser::load_config(std::string config_file)
                        if (!pCurrentRegionPropAttribute) break;
                        pOCR_Region->setY2(atoi(pCurrentRegionPropAttribute->get_value().c_str()));
                        
+                    }
+                }
+                
+                // get post process info
+                if (pCurrentRegionPropNode->get_name() == "postprocess") 
+                {
+                    pCurrentRegionPropElement = dynamic_cast<xmlpp::Element*> (pCurrentRegionPropNode);
+                    if (pCurrentRegionPropElement) {
+                        pCurrentRegionPropAttribute = pCurrentRegionPropElement->get_attribute("mode");
+                        if (!pCurrentRegionPropAttribute) break;
+                        pOCR_PP = new OCR_RegionPostProcess();
+                        pOCR_PP->setOperation(atoi(pCurrentRegionPropAttribute->get_value().c_str()));
+                        
+                        pOCR_Region->addPostProcess(pOCR_PP);
+                    }
+                }
+                
+                // get post process info
+                if (pCurrentRegionPropNode->get_name() == "validator") 
+                {
+                    pCurrentRegionPropElement = dynamic_cast<xmlpp::Element*> (pCurrentRegionPropNode);
+                    if (pCurrentRegionPropElement) {
+                        pCurrentRegionPropAttribute = pCurrentRegionPropElement->get_attribute("mode");
+                        if (!pCurrentRegionPropAttribute) break;
+                        
+                        pValidator = new OCR_RegionValidator();
+                        pValidator->setMode(atoi(pCurrentRegionPropAttribute->get_value().c_str()));
+                        pValidator->setOptional(false);
+                        
+                        pCurrentRegionPropAttribute = pCurrentRegionPropElement->get_attribute("optional");
+                        if (pCurrentRegionPropAttribute)
+                            if (pCurrentRegionAttribute->get_value() == "true" || pCurrentRegionAttribute->get_value() == "TRUE") 
+                                pValidator->setOptional(true);
+                        
+                        pOCR_Region->addValidator(pValidator);
                     }
                 }
                 

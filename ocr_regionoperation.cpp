@@ -49,8 +49,10 @@ void OCR_RegionOperation::processImageOCR()
     
     // Get OCR result
     outText = api->GetUTF8Text();
-    szOCRText.append(outText);
-
+    std::string OCRText;
+    OCRText.append(outText);
+    setOCRText(OCRText);
+    
     // Destroy used object and release memory
     api->End();
     delete [] outText;

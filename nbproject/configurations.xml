@@ -6,7 +6,9 @@
                    projectFiles="true">
       <itemPath>ocr_parser.h</itemPath>
       <itemPath>ocr_region.h</itemPath>
+      <itemPath>ocr_region_process.h</itemPath>
       <itemPath>ocr_regionoperation.h</itemPath>
+      <itemPath>ocr_regionvalidator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -18,7 +20,9 @@
       <itemPath>main.cpp</itemPath>
       <itemPath>ocr_parser.cpp</itemPath>
       <itemPath>ocr_region.cpp</itemPath>
+      <itemPath>ocr_region_process.cpp</itemPath>
       <itemPath>ocr_regionoperation.cpp</itemPath>
+      <itemPath>ocr_regionvalidator.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -68,9 +72,17 @@
       </item>
       <item path="ocr_region.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ocr_region_process.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ocr_region_process.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ocr_regionoperation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ocr_regionoperation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ocr_regionvalidator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ocr_regionvalidator.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -105,9 +117,17 @@
       </item>
       <item path="ocr_region.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ocr_region_process.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ocr_region_process.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ocr_regionoperation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ocr_regionoperation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ocr_regionvalidator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ocr_regionvalidator.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
