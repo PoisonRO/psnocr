@@ -36,8 +36,8 @@ private:
     const static int    opIsNumeric         =   1;
     const static int    opIsDate            =   2;
     
-    // does not contain any numbers
-    const static int    osIsString          =   3;
+    // does not contain numbers
+    const static int    opIsString          =   3;
     
 };
 

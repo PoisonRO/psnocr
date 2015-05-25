@@ -12,6 +12,7 @@
 #include <vector>
 #include "ocr_regionoperation.h"
 #include <Magick++.h>
+#include <libxml++/libxml++.h>
 
 class OCR_Parser {
     

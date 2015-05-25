@@ -70,32 +70,32 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/psnocr: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/ocr_parser.o: ocr_parser.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_parser.o ocr_parser.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_parser.o ocr_parser.cpp
 
 ${OBJECTDIR}/ocr_region.o: ocr_region.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_region.o ocr_region.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_region.o ocr_region.cpp
 
 ${OBJECTDIR}/ocr_region_process.o: ocr_region_process.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_region_process.o ocr_region_process.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_region_process.o ocr_region_process.cpp
 
 ${OBJECTDIR}/ocr_regionoperation.o: ocr_regionoperation.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_regionoperation.o ocr_regionoperation.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_regionoperation.o ocr_regionoperation.cpp
 
 ${OBJECTDIR}/ocr_regionvalidator.o: ocr_regionvalidator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_regionvalidator.o ocr_regionvalidator.cpp
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ocr_regionvalidator.o ocr_regionvalidator.cpp
 
 # Subprojects
 .build-subprojects:

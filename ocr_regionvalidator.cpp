@@ -37,5 +37,30 @@ int OCR_RegionValidator::Validate(std::string szInputString)
 {
     int iReturnValue = Passed;
     
+    switch (iMode) {
+        case opIsNumeric:
+            for (std::string::size_type i=0;i<szInputString.size();i++)
+                if ( std::isdigit(szInputString[i]) == false) {
+                    iReturnValue = NotPassed;
+                }
+                    
+            break;
+            
+        case opIsDate:
+            // TODO
+            break;
+            
+        case opIsString:
+            for (std::string::size_type i=0;i<szInputString.size();i++)
+                if ( std::isdigit(szInputString[i]) == true) {
+                    iReturnValue = NotPassed;
+                }
+            break;
+    }
+    
+    if (bOptional == true && iReturnValue == NotPassed) {
+        iReturnValue = PassedWithErrors;
+    }
+    
     return iReturnValue;
 }

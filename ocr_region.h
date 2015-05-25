@@ -11,6 +11,7 @@
 #include <string>
 
 #include "ocr_regionvalidator.h"
+#include "ocr_region_process.h"
 
 class OCR_Region {
     

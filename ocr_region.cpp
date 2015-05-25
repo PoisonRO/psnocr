@@ -78,8 +78,8 @@ void OCR_Region::setOCRText(std::string newOCRText)
     szOCRText = newOCRText;
     
     // post process text
-    for (OCR_RegionPostProcess pp : pPostProcess) {
-        szOCRText = pp.processData(szOCRText);
+    for (OCR_RegionPostProcess* pp : pPostProcess) {
+        szOCRText = pp->processData(szOCRText);
     }
 }
 

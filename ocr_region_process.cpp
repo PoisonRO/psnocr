@@ -31,17 +31,17 @@ std::string OCR_RegionPostProcess::processData(std::string szInputString) {
         case opRemoveBlanks :
             for (std::string::size_type i=0;i<szInputString.size();i++)
                 if ( isspace(szInputString[i]) == false )
-                    newString.append(std::toupper(szInputString[i]));
+                    newString.append(std::to_string(szInputString.c_str()[i]));
             break;
             
         case opToLowerCase:
             for (std::string::size_type i=0;i<szInputString.size();i++)
-                newString.append(std::tolower(szInputString[i]));
+                newString.append(std::to_string(std::tolower(szInputString.c_str()[i])));
             break;
             
         case opToUpperCase:
             for (std::string::size_type i=0;i<szInputString.size();i++)
-                newString.append(std::toupper(szInputString[i]));
+                newString.append(std::to_string(std::toupper(szInputString.c_str()[i])));
             break;
     }
     
