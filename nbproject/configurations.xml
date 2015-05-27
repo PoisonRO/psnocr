@@ -7,7 +7,6 @@
       <itemPath>app_client.h</itemPath>
       <itemPath>app_server.h</itemPath>
       <itemPath>app_settings.h</itemPath>
-      <itemPath>easylogging++.h</itemPath>
       <itemPath>ocr_parser.h</itemPath>
       <itemPath>ocr_region.h</itemPath>
       <itemPath>ocr_region_process.h</itemPath>
@@ -43,7 +42,6 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
     <itemPath>README.md</itemPath>
-    <itemPath>log.conf</itemPath>
     <itemPath>settings.xml</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -83,10 +81,6 @@
       <item path="app_settings.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="app_settings.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="easylogging++.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="log.conf" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -146,10 +140,6 @@
       <item path="app_settings.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="app_settings.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="easylogging++.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="log.conf" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
