@@ -20,32 +20,18 @@
 #include <unistd.h>
 #include <syslog.h>
 #include <string.h>
-
+#include <iostream>
 #include "ocr_parser.h"
 
-using namespace std;
 using namespace Magick;
+
 /*
  * 
  */
 
 //http://www.imagemagick.org/Magick++/Image.html
-int main(int argc, char** argv) 
-{
-    
-    
-    /*Magick::InitializeMagick(*argv);
-    
-    OCR_Parser    *settings;
-    
-    settings = new OCR_Parser();
-    
-    settings->load_config("/home/dan/Desktop/magick_images/f.xml");
-    settings->loadImage("/home/dan/Desktop/magick_images/Untitled.png");
-    settings->process_ocr();
-    
-    delete settings;*/
-    
+
+void start_daemon() {
     pid_t pid,sid;
     
     pid = fork();
@@ -83,6 +69,38 @@ int main(int argc, char** argv)
            
     sleep(30); /* wait 30 seconds */
     }
+}
+
+int main(int argc, char** argv) 
+{
+    
+    
+    /*Magick::InitializeMagick(*argv);
+    
+    OCR_Parser    *settings;
+    
+    settings = new OCR_Parser();
+    
+    settings->load_config("/home/dan/Desktop/magick_images/f.xml");
+    settings->loadImage("/home/dan/Desktop/magick_images/Untitled.png");
+    settings->process_ocr();
+    
+    delete settings;*/
+    
+    if (argc == 1) {
+        std::cout << "Program requires one argument.\n";
+        exit(EXIT_SUCCESS);
+    }
+    
+    if (argc > 2) {
+        std::cout << "Only the first argument will be used.\n";
+    }
+    
+    // check arguments
+    
+    
+    
+    std::cout << argv[1] << "\n";
     
     exit(EXIT_SUCCESS);
 }

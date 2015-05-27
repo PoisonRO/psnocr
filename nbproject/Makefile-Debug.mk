@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/app_settings.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/ocr_parser.o \
 	${OBJECTDIR}/ocr_region.o \
@@ -66,6 +67,11 @@ LDLIBSOPTIONS=-ltesseract -llept
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/psnocr: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/psnocr ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/app_settings.o: app_settings.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/ImageMagick-6 -I/usr/include/libxml++-2.6 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/app_settings.o app_settings.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
