@@ -9,10 +9,23 @@
 #include <libxml++/libxml++.h>
 #include <glibmm-2.4/glibmm/ustring.h>
 
-app_settings::app_settings() {
+app_settings* app_settings::instance = NULL;
+
+const std::string app_settings::SERVER_PORT = "listenPort";
+const std::string app_settings::MAX_SERVER_CONNECTIONS = "maxConnections";
+const std::string app_settings::MAX_OCR_THREADS = "maxOCRThreads";
+
+app_settings* app_settings::Instance() {
+    
+    if (!instance) {
+        instance = new app_settings();
+        instance->loadSettings();
+    }
+    
+    return instance;
 }
 
-app_settings::~app_settings() {
+app_settings::app_settings() {
 }
 
 std::string app_settings::getSetting(std::string key)
@@ -45,9 +58,27 @@ void app_settings::loadSettings()
         {
             if (pCurrentElement->get_name() == "listen")
             {
+                // daemon listen port
                 pCurrentAttribute = pCurrentElement->get_attribute("port");
                 if (pCurrentAttribute)
-                    mapSettings["listenPort"] = pCurrentAttribute->get_value();
+                    mapSettings[SERVER_PORT] = pCurrentAttribute->get_value();
+                else
+                    mapSettings[SERVER_PORT] = "46466";
+                
+                pCurrentAttribute = pCurrentElement->get_attribute("maxconnections");
+                if (pCurrentAttribute)
+                    mapSettings[MAX_SERVER_CONNECTIONS] = pCurrentAttribute->get_value();
+                else
+                    mapSettings[MAX_SERVER_CONNECTIONS] = "10";
+            }
+            
+            if (pCurrentElement->get_name() == "ocr") {
+                // daemon listen port
+                pCurrentAttribute = pCurrentElement->get_attribute("maxregionthreads");
+                if (pCurrentAttribute)
+                    mapSettings[MAX_OCR_THREADS] = pCurrentAttribute->get_value();
+                else
+                    mapSettings[MAX_OCR_THREADS] = "4";
             }
         }
     }

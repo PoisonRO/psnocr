@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/app_client.o \
+	${OBJECTDIR}/app_server.o \
 	${OBJECTDIR}/app_settings.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/ocr_parser.o \
@@ -67,6 +69,16 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/psnocr: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/psnocr ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/app_client.o: app_client.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/app_client.o app_client.cpp
+
+${OBJECTDIR}/app_server.o: app_server.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/app_server.o app_server.cpp
 
 ${OBJECTDIR}/app_settings.o: app_settings.cpp 
 	${MKDIR} -p ${OBJECTDIR}

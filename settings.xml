@@ -1,3 +1,4 @@
 <settings>
-    <listen port="46466"/>
+    <listen port="46466" maxconnections="10"/>
+    <ocr maxregionthreads="4"/>
 </settings>

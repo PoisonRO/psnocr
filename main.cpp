@@ -21,9 +21,9 @@
 #include <syslog.h>
 #include <string.h>
 #include <iostream>
-#include "ocr_parser.h"
+#include "app_server.h"
+#include "app_client.h"
 
-using namespace Magick;
 
 /*
  * 
@@ -74,8 +74,7 @@ void start_daemon() {
 int main(int argc, char** argv) 
 {
     
-    
-    /*Magick::InitializeMagick(*argv);
+    /*
     
     OCR_Parser    *settings;
     
@@ -87,6 +86,8 @@ int main(int argc, char** argv)
     
     delete settings;*/
     
+    Magick::InitializeMagick(*argv);
+    
     if (argc == 1) {
         std::cout << "Program requires one argument.\n";
         exit(EXIT_SUCCESS);
@@ -96,11 +97,28 @@ int main(int argc, char** argv)
         std::cout << "Only the first argument will be used.\n";
     }
     
-    // check arguments
+    std::string argument(argv[1]);
     
     
+    if (argument == "START") {
+        app_server *app = new app_server();
     
-    std::cout << argv[1] << "\n";
+        app->run();
+    
+        delete app;
+    }  else 
+    if (argument == "STOP") {
+        
+    }  else 
+    if (argument == "LISTS") {
+        app_client *appc = new app_client();
+        appc->sendCommand();
+        delete appc;
+    }  else 
+        std::cout << "Invalid argument.\n";
+    
+    
+   
     
     exit(EXIT_SUCCESS);
 }

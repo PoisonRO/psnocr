@@ -15,19 +15,26 @@ class app_settings {
     
 public:
     
-    app_settings();
-    virtual ~app_settings();
+    const static std::string    SERVER_PORT;
+    const static std::string    MAX_SERVER_CONNECTIONS;
+    const static std::string    MAX_OCR_THREADS;
+    
+    static app_settings* Instance();
     
     std::string getSetting(std::string key);
-    void loadSettings();
     
 private:
     
+    app_settings();
+    
     std::unordered_map<std::string,std::string> mapSettings;
 
+    void loadSettings();
+    
     app_settings(app_settings const&);
     void operator=(app_settings const &);
     
+    static app_settings    *instance;
 };
 
 #endif	/* APP_SETTINGS_H */
