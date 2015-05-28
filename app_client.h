@@ -19,6 +19,7 @@ public:
     virtual ~app_client();
     void sendListCommand();
     void sendStopCommand();
+    void sendOCRInfo();
 private:
 
     sockaddr_in serv_addr;

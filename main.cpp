@@ -120,6 +120,12 @@ int main(int argc, char** argv)
         appc->sendListCommand();
         delete appc;
     }  else 
+    if (argument == "TEST") {
+        appc = new app_client();
+        appc->sendOCRInfo();
+        delete appc;
+    }
+    else 
         std::cout << "Invalid argument.\n";
     
     

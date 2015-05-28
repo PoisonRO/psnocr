@@ -29,6 +29,11 @@ public:
     static const    char RES_OK[MAX_RES_SIZE];
     static const    char RES_GEN_ERROR[MAX_RES_SIZE];
     static const    char RES_UNKNOWN_COMMAND[MAX_RES_SIZE];
+    static const    char RES_NO_INPUT_IMAGE[MAX_RES_SIZE];
+    static const    char RES_NO_INPUT_TEMPLATE[MAX_RES_SIZE];
+    static const    char RES_NO_IMAGE_SIZE[MAX_RES_SIZE];
+    static const    char RES_NO_TEMPLATE_SIZE[MAX_RES_SIZE];
+    
     
     app_server();
     virtual ~app_server();
@@ -37,7 +42,10 @@ public:
     
     struct RequestHeader {
         char                szCommand[MAX_CMD_SIZE];
-        unsigned long       iDataSize;
+        unsigned long       iOCRTemplateSize;
+        unsigned long       iOCRImageSize;
+        char                szTemplateName[64];
+        char                szImageName[64];
     };
     
     struct ResponseHeader {
@@ -52,15 +60,18 @@ private:
     // startup settings
     int         iServerPort;
     int         iMaxConnections;
+    bool        bKeepTemp;
     
     // server variables
     int         iConnections;
     bool        alive; 
     bool        bAcceptConnections;
     
+    
     sockaddr_in serv_addr;
     int         listenfd = 0,
                 connfd = 0;
+    
     
 };
 

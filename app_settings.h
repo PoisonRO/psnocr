@@ -18,6 +18,8 @@ public:
     const static std::string    SERVER_PORT;
     const static std::string    MAX_SERVER_CONNECTIONS;
     const static std::string    MAX_OCR_THREADS;
+    const static std::string    KEEP_TEMP_FILES;
+    const static std::string    TEMP_LOCATION;
     
     static app_settings* Instance();
     

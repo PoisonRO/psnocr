@@ -11,9 +11,14 @@
 
 app_settings* app_settings::instance = NULL;
 
+
+// <editor-fold desc="Static variables" defaultstate="collapsed">
 const std::string app_settings::SERVER_PORT             = "listenPort";
 const std::string app_settings::MAX_SERVER_CONNECTIONS  = "maxConnections";
 const std::string app_settings::MAX_OCR_THREADS         = "maxOCRThreads";
+const std::string app_settings::KEEP_TEMP_FILES         = "keepTemp";
+const std::string app_settings::TEMP_LOCATION           = "tempLocation";
+// </editor-fold>
 
 app_settings* app_settings::Instance() {
     
@@ -79,6 +84,20 @@ void app_settings::loadSettings()
                     mapSettings[MAX_OCR_THREADS] = pCurrentAttribute->get_value();
                 else
                     mapSettings[MAX_OCR_THREADS] = "4";
+                
+                pCurrentAttribute = pCurrentElement->get_attribute("keeptemp");
+                if (pCurrentAttribute)
+                    mapSettings[KEEP_TEMP_FILES] = pCurrentAttribute->get_value();
+                else
+                    mapSettings[KEEP_TEMP_FILES] = "true";
+            }
+            
+            if (pCurrentElement->get_name() == "application") {
+                pCurrentAttribute = pCurrentElement->get_attribute("tempLocation");
+                if (pCurrentAttribute)
+                    mapSettings[TEMP_LOCATION] = pCurrentAttribute->get_value();
+                else
+                    mapSettings[TEMP_LOCATION] = "temp";
             }
         }
     }
