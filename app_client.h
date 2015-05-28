@@ -17,8 +17,8 @@ public:
     
     app_client();
     virtual ~app_client();
-    void sendCommand();
-    
+    void sendListCommand();
+    void sendStopCommand();
 private:
 
     sockaddr_in serv_addr;

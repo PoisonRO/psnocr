@@ -97,8 +97,11 @@ int main(int argc, char** argv)
         std::cout << "Only the first argument will be used.\n";
     }
     
+    //std::string argument = "LISTS";
+    
     std::string argument(argv[1]);
     
+    app_client *appc;
     
     if (argument == "START") {
         app_server *app = new app_server();
@@ -108,11 +111,13 @@ int main(int argc, char** argv)
         delete app;
     }  else 
     if (argument == "STOP") {
-        
+        appc = new app_client();
+        appc->sendStopCommand();
+        delete appc;
     }  else 
     if (argument == "LISTS") {
-        app_client *appc = new app_client();
-        appc->sendCommand();
+        appc = new app_client();
+        appc->sendListCommand();
         delete appc;
     }  else 
         std::cout << "Invalid argument.\n";

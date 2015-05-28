@@ -11,9 +11,9 @@
 
 app_settings* app_settings::instance = NULL;
 
-const std::string app_settings::SERVER_PORT = "listenPort";
-const std::string app_settings::MAX_SERVER_CONNECTIONS = "maxConnections";
-const std::string app_settings::MAX_OCR_THREADS = "maxOCRThreads";
+const std::string app_settings::SERVER_PORT             = "listenPort";
+const std::string app_settings::MAX_SERVER_CONNECTIONS  = "maxConnections";
+const std::string app_settings::MAX_OCR_THREADS         = "maxOCRThreads";
 
 app_settings* app_settings::Instance() {
     

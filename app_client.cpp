@@ -9,6 +9,7 @@
 
 #include "app_client.h"
 #include "app_settings.h"
+#include "app_server.h"
 #include <arpa/inet.h>
 
 
@@ -18,6 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <iostream>
 
 app_client::app_client() 
 {
@@ -32,30 +34,62 @@ app_client::app_client()
     
     if(connect(sockfd,(const sockaddr *) &serv_addr, sizeof(serv_addr))<0)
     {
-      // error
+        std::cout << "unable to connect";
+    }
+    
+    int yes = 1;
+    if ( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1 )
+    {
+         std::cout << "setsockopt";
     }
 }
 
 app_client::~app_client() {
 }
 
-void app_client::sendCommand(){
-    int n=0;
-    char recvBuff[1024];
+void app_client::sendListCommand() {
     
-    while((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
-    {
-      recvBuff[n] = 0;
-      if(fputs(recvBuff, stdout) == EOF)
-    {
-      printf("\n Error : Fputs error");
-    }
-      printf("\n");
-    }
- 
-  if( n < 0)
-    {
-      printf("\n Read Error \n");
+    app_server::RequestHeader reqHdr;
+    app_server::ResponseHeader resHdr;
+    
+    char *szResponse = NULL;
+    
+    strncpy(reqHdr.szCommand,app_server::CMD_LIST_SERVER_PARAMS,sizeof(reqHdr.szCommand));
+    
+    write(sockfd,&reqHdr,sizeof(reqHdr));
+    read(sockfd,&resHdr,sizeof(resHdr));
+    
+    std::cout << resHdr.szStatusCode << '\n';
+    
+    if (resHdr.iDataSize > 0) {
+        
+        szResponse = new char[resHdr.iDataSize+1];
+        read(sockfd,szResponse,resHdr.iDataSize);
+    
+        std::cout << szResponse;
+        delete [] szResponse;
     }
 }
 
+void app_client::sendStopCommand() {
+    app_server::RequestHeader reqHdr;
+    app_server::ResponseHeader resHdr;
+    
+    char *szResponse = NULL;
+    
+    strncpy(reqHdr.szCommand,app_server::CMD_STOP,sizeof(reqHdr.szCommand));
+    
+    write(sockfd,&reqHdr,sizeof(reqHdr));
+    read(sockfd,&resHdr,sizeof(resHdr));
+    
+    std::cout << resHdr.szStatusCode << '\n';
+    
+    if (resHdr.iDataSize > 0) {
+        
+        szResponse = new char[resHdr.iDataSize+1];
+        read(sockfd,szResponse,resHdr.iDataSize);
+    
+        std::cout << szResponse;
+        delete [] szResponse;
+    }
+}
