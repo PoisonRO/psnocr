@@ -19,7 +19,7 @@ public:
     virtual ~app_client();
     void sendListCommand();
     void sendStopCommand();
-    void sendOCRInfo();
+    void sendOCRInfo(std::string szInputTemplate,std::string szInputImage);
 private:
 
     sockaddr_in serv_addr;

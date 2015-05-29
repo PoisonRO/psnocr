@@ -90,16 +90,24 @@ int main(int argc, char** argv)
     
     if (argc == 1) {
         std::cout << "Program requires one argument.\n";
-        exit(EXIT_SUCCESS);
+        //exit(EXIT_SUCCESS);
     }
+    
+    std::string szTemplateName;
+    std::string szImageName;
     
     if (argc > 2) {
-        std::cout << "Only the first argument will be used.\n";
+        if (strcmp(argv[1],"TEST")==0)
+            if (argc < 4) {
+                std::cout << "Must pass template and image name. \n";
+                exit(EXIT_SUCCESS);
+            }
+        else
+            std::cout << "Only the first argument will be used.\n";
     }
     
-    //std::string argument = "LISTS";
-    
-    std::string argument(argv[1]);
+    //std::string argument(argv[1]);
+    std::string argument = "START";
     
     app_client *appc;
     
@@ -121,8 +129,15 @@ int main(int argc, char** argv)
         delete appc;
     }  else 
     if (argument == "TEST") {
+        
+        //szTemplateName.append(argv[2]);
+        //szImageName.append(argv[3]);
+        
+        szTemplateName="template.xml";
+        szImageName = "factura.png";
+        
         appc = new app_client();
-        appc->sendOCRInfo();
+        appc->sendOCRInfo(szTemplateName,szImageName);
         delete appc;
     }
     else 

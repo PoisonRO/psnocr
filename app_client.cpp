@@ -12,7 +12,6 @@
 #include "app_server.h"
 #include <arpa/inet.h>
 
-
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
@@ -94,20 +93,71 @@ void app_client::sendStopCommand() {
     }
 }
 
-void app_client::sendOCRInfo()
+void app_client::sendOCRInfo(std::string szInputTemplate,std::string szInputImage)
 {
     app_server::RequestHeader reqHdr = { 0 };
     app_server::ResponseHeader resHdr = { 0 };
     
     char *szResponse = NULL;
     
+    FILE *fTemplate = fopen(szInputTemplate.c_str(),"r");
+    fseek(fTemplate,0,SEEK_END);
+    reqHdr.iOCRTemplateSize = ftell(fTemplate);
+    rewind(fTemplate);
+    
+    FILE *fImage = fopen(szInputImage.c_str(),"r");
+    fseek(fImage,0,SEEK_END);
+    reqHdr.iOCRImageSize = ftell(fImage);
+    rewind(fImage);
+    
     strncpy(reqHdr.szCommand,app_server::CMD_START_OCR_PROCESS,sizeof(reqHdr.szCommand));
-    reqHdr.iOCRTemplateSize = 10;
-    strcpy(reqHdr.szTemplateName,"smen.xml");
-    reqHdr.iOCRImageSize = 10;
-    strcpy(reqHdr.szImageName,"smen.png");
+    strcpy(reqHdr.szTemplateName,szInputTemplate.c_str());
+    strcpy(reqHdr.szImageName,szInputImage.c_str());
+    reqHdr.iProcessID = 10;
     
     write(sockfd,&reqHdr,sizeof(reqHdr));
+    
+    // read template file and send it to server
+    
+    char buffer[256];
+    void *pBuffer = buffer;
+    int bytes_read;
+    int bytes_written;
+    
+    while (1) {
+        
+        bytes_read = fread(buffer,sizeof(char),sizeof(buffer),fTemplate);
+        
+        if (bytes_read <= 0)
+            break;
+        
+        while (bytes_read > 0) {
+            bytes_written = write(sockfd,pBuffer,bytes_read);
+            if (bytes_written <= 0)
+                break;
+            bytes_read -= bytes_written;
+            pBuffer += bytes_written;
+        }
+    }
+    
+    fclose(fTemplate);
+    
+    while (1) {
+        
+        bytes_read = fread(buffer,sizeof(char),sizeof(buffer),fImage);
+        
+        if (bytes_read <= 0)
+            break;
+        
+        while (bytes_read > 0) {
+            bytes_written = write(sockfd,pBuffer,bytes_read);
+            if (bytes_written <= 0)
+                break;
+            bytes_read -= bytes_written;
+            pBuffer += bytes_written;
+        }
+    }
+    
     read(sockfd,&resHdr,sizeof(resHdr));
     
     std::cout << resHdr.szStatusCode << '\n';

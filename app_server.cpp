@@ -7,6 +7,7 @@
 
 #include "app_server.h"
 #include "app_settings.h"
+#include "ocr_parser.h"
 
 #include <sys/stat.h>
 #include <stdio.h>
@@ -16,9 +17,9 @@
 #include <iostream>
 
 // <editor-fold desc="Static variables" defaultstate="collapsed">
-const char app_server::CMD_STOP[MAX_CMD_SIZE]                         = "STOP"      ;
-const char app_server::CMD_LIST_SERVER_PARAMS[MAX_CMD_SIZE]           = "LIST"      ;
-const char app_server::CMD_START_OCR_PROCESS[MAX_CMD_SIZE]            = "STARTOCR"  ;
+const char app_server::CMD_STOP[MAX_CMD_SIZE]                         = "STOP";
+const char app_server::CMD_LIST_SERVER_PARAMS[MAX_CMD_SIZE]           = "LIST";
+const char app_server::CMD_START_OCR_PROCESS[MAX_CMD_SIZE]            = "STARTOCR";
 
 const char app_server::RES_OK[MAX_RES_SIZE]                           = "OK";
 const char app_server::RES_GEN_ERROR[MAX_RES_SIZE]                    = "ERROR";
@@ -28,6 +29,7 @@ const char app_server::RES_NO_INPUT_IMAGE[MAX_RES_SIZE]               = "NOIMG";
 const char app_server::RES_NO_INPUT_TEMPLATE[MAX_RES_SIZE]            = "NOIMGS";
 const char app_server::RES_NO_IMAGE_SIZE[MAX_RES_SIZE]                = "NOTMPL";
 const char app_server::RES_NO_TEMPLATE_SIZE[MAX_RES_SIZE]             = "NOTMPLS";
+const char app_server::RES_NO_PID[MAX_RES_SIZE]                       = "NOPID";
 // </editor-fold>
 
 app_server::app_server() 
@@ -54,8 +56,7 @@ app_server::app_server()
     serv_addr.sin_port = htons(iServerPort);
     
     int yes = 1;
-    if ( setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1 )
-    {
+    if ( setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1 ) {
          std::cout << "setsockopt";
     }
     
@@ -155,11 +156,75 @@ void app_server::ProcessRequest()
         if (hdrreq.iOCRTemplateSize==0)
             strncpy(hdrres.szStatusCode,app_server::RES_NO_TEMPLATE_SIZE,sizeof(hdrres.szStatusCode));
         
+        if (hdrreq.iProcessID==0)
+            strncpy(hdrres.szStatusCode,app_server::RES_NO_PID,sizeof(hdrres.szStatusCode));
+        
         write(connfd,&hdrres,sizeof(ResponseHeader));
         
         // debug
-        if (strcmp(hdrres.szStatusCode,RES_OK)==0)
-            std::cout << "Template Name : " << hdrreq.szTemplateName << "Image Name : " << hdrreq.szImageName << '\n';
+        if (strcmp(hdrres.szStatusCode,RES_OK)==0) {
+            
+            std::cout << "Template Name : " << hdrreq.szTemplateName << " Image Name : " << hdrreq.szImageName << '\n';
+
+            // begin OCR process
+            
+            // <editor-fold desc="Transfer Files" defaultstate="collapsed">
+            std::string szTempFolder = app_settings::Instance()->getSetting(app_settings::TEMP_LOCATION);
+            szTempFolder.append("/PID");
+            szTempFolder.append(std::to_string(hdrreq.iProcessID));
+            mkdir(szTempFolder.c_str(),S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            chdir(szTempFolder.c_str());
+            
+            FILE *pFile = fopen(hdrreq.szTemplateName,"w");
+            
+            unsigned long iTempReadSize = hdrreq.iOCRTemplateSize;
+            
+            char buffer[256];
+            int bytes_read;
+            int amount_to_read;
+            
+            while (iTempReadSize != 0) {
+                amount_to_read = iTempReadSize < sizeof(buffer) ? iTempReadSize : sizeof(buffer);
+                bytes_read = read(connfd,buffer,amount_to_read); 
+                iTempReadSize -= amount_to_read;
+                if (bytes_read<=0) {
+                    strncpy(hdrres.szStatusCode,app_server::RES_GEN_ERROR,sizeof(hdrres.szStatusCode));
+                    break;
+                }
+                
+                fwrite(buffer,sizeof(char),amount_to_read,pFile);
+                
+            }
+            
+            
+            fclose(pFile);
+            
+            pFile = fopen(hdrreq.szImageName,"w");
+            iTempReadSize = hdrreq.iOCRImageSize;
+            
+            while (iTempReadSize != 0) {
+                amount_to_read = iTempReadSize < sizeof(buffer) ? iTempReadSize : sizeof(buffer);
+                bytes_read = read(connfd,buffer,amount_to_read); 
+                iTempReadSize -= amount_to_read;
+                if (bytes_read<=0) {
+                    strncpy(hdrres.szStatusCode,app_server::RES_GEN_ERROR,sizeof(hdrres.szStatusCode));
+                    break;
+                }
+                
+                fwrite(buffer,sizeof(char),amount_to_read,pFile);
+                
+            }
+            fclose(pFile);
+            // </editor-fold>
+        
+            //OCR_Parser    *ocr = new OCR_Parser();
+            
+            //ocr->load_config(hdrreq.szTemplateName);
+            //ocr->loadImage(hdrreq.szImageName);
+            //ocr->process_ocr();
+            
+            //delete ocr;
+        }
     } 
     
     // <editor-fold desc="Unknown command error" defaultstate="collapsed">

@@ -33,7 +33,7 @@ public:
     static const    char RES_NO_INPUT_TEMPLATE[MAX_RES_SIZE];
     static const    char RES_NO_IMAGE_SIZE[MAX_RES_SIZE];
     static const    char RES_NO_TEMPLATE_SIZE[MAX_RES_SIZE];
-    
+    static const    char RES_NO_PID[MAX_RES_SIZE];
     
     app_server();
     virtual ~app_server();
@@ -42,6 +42,7 @@ public:
     
     struct RequestHeader {
         char                szCommand[MAX_CMD_SIZE];
+        unsigned long       iProcessID;
         unsigned long       iOCRTemplateSize;
         unsigned long       iOCRImageSize;
         char                szTemplateName[64];

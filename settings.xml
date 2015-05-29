@@ -1,4 +1,5 @@
 <settings>
     <listen port="46466" maxconnections="10"/>
-    <ocr maxregionthreads="4"/>
+    <ocr maxregionthreads="4" keeptemp="true"/>
+    <application tempLocation="temp"/>
 </settings>
