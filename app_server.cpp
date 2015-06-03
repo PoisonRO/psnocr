@@ -101,13 +101,14 @@ void app_server::ProcessRequest()
     read(connfd,&hdrreq,sizeof(RequestHeader));
     
     ResponseHeader hdrres;
+    std::string responseString;
     
     // <editor-fold desc="Get Parameters Command" defaultstate="collapsed">
     // process list request
     if (strcmp(CMD_LIST_SERVER_PARAMS,hdrreq.szCommand) ==0) {
         strncpy(hdrres.szStatusCode,RES_OK,sizeof(hdrres.szStatusCode));
         
-        std::string responseString = "Listen port : ";
+        responseString = "Listen port : ";
         responseString.append(std::to_string(iServerPort));
         responseString.append("\n");
         responseString.append("Max connections : ");
@@ -159,7 +160,6 @@ void app_server::ProcessRequest()
         if (hdrreq.iProcessID==0)
             strncpy(hdrres.szStatusCode,app_server::RES_NO_PID,sizeof(hdrres.szStatusCode));
         
-        write(connfd,&hdrres,sizeof(ResponseHeader));
         
         // debug
         if (strcmp(hdrres.szStatusCode,RES_OK)==0) {
@@ -217,14 +217,28 @@ void app_server::ProcessRequest()
             fclose(pFile);
             // </editor-fold>
         
-            //OCR_Parser    *ocr = new OCR_Parser();
+            OCR_Parser    *ocr = new OCR_Parser();
             
-            //ocr->load_config(hdrreq.szTemplateName);
-            //ocr->loadImage(hdrreq.szImageName);
-            //ocr->process_ocr();
+            try {
+                ocr->loadImage(hdrreq.szImageName);
+                ocr->load_config(hdrreq.szTemplateName);
+                ocr->process_ocr();
+            } catch (int e) {
+                std::cout << "Exception number : " << e << '\n';
+                responseString = "<error>";
+                responseString.append(std::to_string(e));
+                responseString.append("</error>");
+                hdrres.iDataSize = strlen(responseString.c_str());
+                
+            }
             
-            //delete ocr;
+            write(connfd,&hdrres,sizeof(ResponseHeader));
+            write(connfd,responseString.c_str(), hdrres.iDataSize);
+            
+            delete ocr;
         }
+        
+        
     } 
     
     // <editor-fold desc="Unknown command error" defaultstate="collapsed">

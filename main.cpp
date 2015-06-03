@@ -106,8 +106,8 @@ int main(int argc, char** argv)
             std::cout << "Only the first argument will be used.\n";
     }
     
-    //std::string argument(argv[1]);
-    std::string argument = "START";
+    std::string argument(argv[1]);
+    //std::string argument = "START";
     
     app_client *appc;
     

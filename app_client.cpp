@@ -131,13 +131,14 @@ void app_client::sendOCRInfo(std::string szInputTemplate,std::string szInputImag
         if (bytes_read <= 0)
             break;
         
+        pBuffer = &buffer;
         while (bytes_read > 0) {
             bytes_written = write(sockfd,pBuffer,bytes_read);
             if (bytes_written <= 0)
                 break;
             bytes_read -= bytes_written;
             pBuffer += bytes_written;
-        }
+    }
     }
     
     fclose(fTemplate);
@@ -149,6 +150,7 @@ void app_client::sendOCRInfo(std::string szInputTemplate,std::string szInputImag
         if (bytes_read <= 0)
             break;
         
+        pBuffer = &buffer;
         while (bytes_read > 0) {
             bytes_written = write(sockfd,pBuffer,bytes_read);
             if (bytes_written <= 0)

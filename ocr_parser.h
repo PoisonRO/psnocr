@@ -17,24 +17,33 @@
 class OCR_Parser {
     
 public:
+    
+    // stic error codes
+    static const    int LOAD_IMAGE_EXCEPTION;
+    static const    int LOAD_TEMPLATE_EXCEPTION;
+    static const    int PROCESS_OCR_EXCEPTION;
+    static const    int IMAGE_NOT_LOADED;
+    
     OCR_Parser();
     
-    void load_config(std::string config_file);
+    void load_config(std::string config_file) throw(int);
     
     virtual ~OCR_Parser();
-    void loadImage(std::string image_file);
+    void loadImage(std::string image_file) throw(int);
     
-    void process_ocr();
+    void process_ocr() throw(int);
     
 private:
     
     std::string                         szPath;
     std::string                         szFileName;
+    std::string                         szImageFileName;
     
     xmlpp::DomParser                    parser;
     std::vector<OCR_RegionOperation*>   regions;
     
     Magick::Image                       pImage;
+    
 };
 
 #endif	/* XML_SETTINGS_H */
