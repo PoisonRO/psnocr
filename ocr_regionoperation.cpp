@@ -7,6 +7,8 @@
 
 #include "ocr_regionoperation.h"
 #include <iostream>
+#include <unistd.h>
+
 
 #include <leptonica/allheaders.h>
 #include <tesseract/baseapi.h>
@@ -26,6 +28,7 @@ void OCR_RegionOperation::processImage()
     pBaseImage.crop(Geometry(x2-x1,y2-y1,x1,y1));
     pBaseImage.write(szTempFileName);
     processImageOCR();
+    //sleep(10);
 }
 
 void OCR_RegionOperation::setTempFileName(std::string __szTempFileName)

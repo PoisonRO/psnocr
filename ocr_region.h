@@ -24,6 +24,7 @@ public:
     void setY1(int __y1);
     void setY2(int __y2);
     void setName(std::string __name);
+    std::string getName();
     
     bool checkRegion();
     

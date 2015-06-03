@@ -50,8 +50,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6` 
-CXXFLAGS=`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6` 
+CCFLAGS=`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6` -fopenmp 
+CXXFLAGS=`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6` -fopenmp 
 
 # Fortran Compiler Flags
 FFLAGS=

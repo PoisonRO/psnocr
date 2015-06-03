@@ -223,6 +223,8 @@ void app_server::ProcessRequest()
                 ocr->loadImage(hdrreq.szImageName);
                 ocr->load_config(hdrreq.szTemplateName);
                 ocr->process_ocr();
+                responseString = ocr->getResponse();
+                hdrres.iDataSize = strlen(responseString.c_str());
             } catch (int e) {
                 std::cout << "Exception number : " << e << '\n';
                 responseString = "<error>";

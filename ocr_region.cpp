@@ -92,3 +92,7 @@ void OCR_Region::addValidator(OCR_RegionValidator* validator)
 {
     pValidators.push_back(validator);
 }
+
+std::string OCR_Region::getName(){
+    return name;
+}

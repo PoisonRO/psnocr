@@ -27,11 +27,11 @@ public:
     OCR_Parser();
     
     void load_config(std::string config_file) throw(int);
-    
     virtual ~OCR_Parser();
     void loadImage(std::string image_file) throw(int);
-    
     void process_ocr() throw(int);
+    
+    std::string getResponse();
     
 private:
     
@@ -43,6 +43,8 @@ private:
     std::vector<OCR_RegionOperation*>   regions;
     
     Magick::Image                       pImage;
+    
+    std::string                         szResponseString;
     
 };
 

@@ -59,7 +59,7 @@
             <pElem>/usr/include/ImageMagick-6</pElem>
             <pElem>/usr/include/libxml++-2.6</pElem>
           </incDir>
-          <commandLine>`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6`</commandLine>
+          <commandLine>`Magick++-config --cppflags --cxxflags --ldflags --libs ; pkg-config --cflags --libs libxml++-2.6` -fopenmp</commandLine>
         </ccTool>
         <linkerTool>
           <linkerLibItems>

@@ -37,6 +37,8 @@ OCR_Parser::~OCR_Parser() {
         delete region;
         region = NULL;
     }
+    
+    szResponseString="";
 }
 
 void OCR_Parser::load_config(std::string config_file)  throw(int)
@@ -46,15 +48,42 @@ void OCR_Parser::load_config(std::string config_file)  throw(int)
     
     // get file name and path
     
-    try {
+    std::string delimiter = "/";
     
-        std::string delimiter = "/";
-        size_t last;
+    size_t last = 0;
+    
+    std::string base_image_name;
+    std::string base_image_extension;
+    
+    last = szImageFileName.find_last_of(".");
+    
+    if (last != std::string::npos) {
+        base_image_extension.assign(szImageFileName,last+1,szImageFileName.size()-last);
+        base_image_extension = "." + base_image_extension;
+       
+    } else {
+        last=0;
+        base_image_extension = ".";
+    }
+    
+    size_t last_delim = 0;
+    
+    last_delim = szImageFileName.find_last_of(delimiter);
+    if (last_delim == std::string::npos) {
+        last_delim = 0;
+        szFileName.assign(szImageFileName,0,szImageFileName.size()-last_delim);
+        szPath="";
+    } else {
+        szFileName.assign(szImageFileName,last_delim+1,szImageFileName.size()-last_delim);
+        szPath.assign(szImageFileName,0,last_delim);
 
-        last = config_file.find_last_of(delimiter);
-
-        szPath.assign(config_file,0,last);
-        szFileName.assign(config_file,last+1,config_file.size()-last);
+    }
+    if (last_delim == last)
+        base_image_name = szImageFileName;
+    else
+        base_image_name.assign(szImageFileName,last_delim,last-last_delim);
+    
+    try {
 
         parser.parse_file(config_file);
 
@@ -166,10 +195,11 @@ void OCR_Parser::load_config(std::string config_file)  throw(int)
 
                 if (pOCR_Region->checkRegion()==true) {
 
-                    std::ostringstream stm ;
-                    stm << iTempFileNo++;
-
-                    pOCR_Region->setTempFileName(szPath+"/"+szFileName+stm.str());
+                    std::string path_prefix;
+                    if (szPath == "") path_prefix="";
+                    else path_prefix=szPath+"/";
+                    
+                    pOCR_Region->setTempFileName(path_prefix+base_image_name+std::to_string(iTempFileNo++)+base_image_extension);
 
                     regions.push_back(pOCR_Region);
                     pOCR_Region = NULL;
@@ -189,16 +219,28 @@ void OCR_Parser::load_config(std::string config_file)  throw(int)
 void OCR_Parser::process_ocr() throw(int)
 {
     try {
+        #pragma omp parallel for
         for (int i = 0;i<regions.size();i++) {
             regions[i]->setBaseImage(pImage);
             regions[i]->processImage();
 
-            std::cout << regions[i]->getOCRText() << "\n";
+            //std::cout << regions[i]->getOCRText() << "\n";
         }
     } catch (std::exception &e) {
         // log exception and throw error code
         throw PROCESS_OCR_EXCEPTION;
     }
+    
+    // create output string
+    szResponseString = "<template name=response>";
+    for (int i =0;i<regions.size();i++) {
+        szResponseString += "<region name=\"";
+        szResponseString += regions[i]->getName();
+        szResponseString += "\"><value>";
+        szResponseString += regions[i]->getOCRText();
+        szResponseString += "</value></region>";
+    }
+    szResponseString += "</template>";
 }
 
 void OCR_Parser::loadImage(std::string image_file) throw(int)
@@ -210,4 +252,8 @@ void OCR_Parser::loadImage(std::string image_file) throw(int)
         // log exception and throw error code
         throw LOAD_IMAGE_EXCEPTION;
     }
+}
+
+std::string OCR_Parser::getResponse() {
+    return szResponseString;
 }
